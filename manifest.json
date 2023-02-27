@@ -1,22 +1,20 @@
-    
 {
-	"manifest_version": 2,
- 	"name": "Auto Refresh [By Gustavo Pimenta]",
- 	"description": "Extensao para Atualizar ServiceDesk do Jira",
- 	"version": "1.0",
- 	"permissions": [
- 		"http://*/*",
- 		"https://*/*",
- 		"tabs"
- 	],
- 	"browser_action": {
-  		"default_icon" : "icon.png",
-  		"default_popup": "popup.html"
-	},
- 	"icons": { 
-  		"128" : "icon_128.png"
-	},
-	"background": {
-		"scripts": ["app.js"]
-	}
+  "manifest_version": 3,
+  "name": "ジョブカンお知らせ",
+  "description": "ジョブカンのお知らせをします",
+  "version": "0.3.0",
+  "permissions": ["alarms", "storage", "tabs", "scripting", "management", "notifications"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "options_page": "options.html",
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "background": {
+    "service_worker": "app.js",
+    "type": "module"
+  }
 }

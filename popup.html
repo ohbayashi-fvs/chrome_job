@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Auto Refresh By Gustavo Pimenta</title>
-	</head>
-	<body style="width: 400px;">
-		<h3>Extension made to Refresh the First Tab Automatically. </h3>
-		<p>Select the time interval in seconds: (default: 60s)</p>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="pico.classless.min.css" />
 
-		<input type="number" id="time">
-		<button id="send">Send</button>
-		<script src="popup.js"></script>
-
-		<p><img src="icon.png"> </p>
-			</center>
-		<!-- <ul>
-			
-			<li>Necessita implementar a fun��o para anular o refresh quando o usuario inetragir com a aba.</li>
-		</ul> -->
-	</body>
+  <style>
+    h1 {
+      font-size: 1rem;
+      line-height: 2rem;
+      margin: 0;
+      font-weight: 500;
+    }
+    .fx {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.8rem;
+      width: 12rem;
+      padding: 2rem 3rem 1.2rem 3rem;
+    }
+    .ix {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+    }
+  </style>
+  <body>
+    <section class="fx">
+      <div class="ix">
+        <h1>終業時間</h1>
+        <span id="evening"></span>
+      </div>
+      <div class="ix">
+        <h1>時刻変更</h1>
+        <input id="today-time" type="time" min="9:00" max="23:55" />
+        <button id="save">変更</button>
+      </div>
+      <a href="./options.html">設定</a>
+    </section>
+    <script src="popup.js" type="module"></script>
+  </body>
 </html>
