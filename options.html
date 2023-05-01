@@ -9,8 +9,8 @@
       grid-template-columns: 0.8fr 1fr;
       align-items: center;
       gap: 1rem;
-      padding: 0 2rem 0 2rem;
-      width: 24rem;
+      padding: 1rem 4rem 1rem 4rem;
+      width: 28rem;
     }
     .center {
       display: flex;
@@ -22,10 +22,11 @@
     }
     h1 {
       font-size: 1.6rem;
-      line-height: 3rem;
+      line-height: 4rem;
     }
     p {
       grid-column: 1/3;
+      margin-bottom: 0;
     }
   </style>
   <body>
@@ -37,6 +38,7 @@
         <label>夜は何時に通知？</label
         ><input id="evening-start" type="time" min="17:50" max="21:00" />
         <p>↑「時刻変更」の方が優先されます</p>
+        <label>デバッグモード</label><input id="debug" type="checkbox" />
         <button id="save">設定を保存</button>
       </div>
     </section>

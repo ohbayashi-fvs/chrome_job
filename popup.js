@@ -1,13 +1,33 @@
 const save = () => {
-  window.close();
-};
+  const todayTime = document.getElementById("today-time").value;
+  if (!todayTime) {
+    return;
+  }
+  if (todayTime === "") {
+    return;
+  }
+  if (Number(todayTime.slice(0, 2)) < 12) {
+    document.getElementById("error").textContent = "終業時間は12時以降にしてください";
+    return;
+  }
 
-document.getElementById("save").onclick = () => {
   chrome.storage.sync
     .set({
       todayTime: document.getElementById("today-time").value,
     })
-    .then(setTimeout(() => getTime(), 100));
+    .then(
+      setTimeout(() => {
+        getTime();
+        document.getElementById("error").textContent = "設定しました";
+        setTimeout(() => {
+          window.close();
+        }, 900);
+      }, 100)
+    );
+};
+
+document.getElementById("save").onclick = () => {
+  save();
 };
 
 const keypress = (event) => {

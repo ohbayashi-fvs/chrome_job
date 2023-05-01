@@ -3,7 +3,7 @@ const getTimefromStr = (timeStr, isTomorrow, isEvening) => {
   const timeArray = timeStr.split(":");
   const hour = Number(timeArray[0]);
   const mins = Number(timeArray[1]);
-  const isMorning = now.getHours() <= 13;
+  const isMorning = now.getHours() <= 11;
   const isMorningTommorowEvening = isMorning && isTomorrow && isEvening; //休み明けで夜タイマーが朝動いたとき
   const time = new Date(
     now.getFullYear(),
@@ -41,11 +41,7 @@ const eveningAlarmReflesh = (isTomorrow, reflesh) => {
           true
         ),
       });
-      /*
-      chrome.alarms
-        .get("evening")
-        .then((alarm) => console.log(alarm.name + new Date(alarm.scheduledTime)));
-        */
+      debugConsole("evening");
     });
   });
 };
@@ -67,11 +63,7 @@ const morningAlarmReflesh = (isTomorrow) => {
         chrome.alarms.create("morning", {
           when: getMorningTime(items.morningStart, isTomorrow),
         });
-        /*
-        chrome.alarms
-          .get("morning")
-          .then((alarm) => console.log(alarm.name + new Date(alarm.scheduledTime)));
-          */
+        debugConsole("morning");
       })
     )
       return;
@@ -84,6 +76,7 @@ chrome.storage.sync.get().then((items) => {
       todayTime: "",
       morningStart: "08:50",
       eveningStart: "18:00",
+      debug: false,
     });
   } else {
     morningAlarmReflesh();
@@ -114,7 +107,7 @@ export const isOver = (TimeStr, advance) => {
 };
 
 const callJobkan = async () => {
-  chrome.notifications.create("jobcan", {
+  chrome.notifications.create({
     title: "ジョブカンお知らせ",
     message: "打刻してください",
     iconUrl: "icon.png",
@@ -193,8 +186,22 @@ chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
   }
 });
 
-/*
-chrome.alarms
-  .getAll()
-  .then((alarms) => alarms.map((alarm) => console.log(alarm.name + new Date(alarm.scheduledTime))));
-*/
+const debugConsole = (consoleStr) => {
+  chrome.storage.sync.get().then((items) => {
+    if (items.debug) {
+      if (consoleStr === "morning" || consoleStr === "evening") {
+        chrome.alarms.get(consoleStr).then((alarm) => {
+          console.log("↓" + consoleStr);
+          console.log(new Date(alarm.scheduledTime));
+        });
+      } else {
+        chrome.alarms.getAll().then((alarms) => {
+          console.log("↓" + consoleStr);
+          alarms.map((alarm) => console.log(alarm.name + new Date(alarm.scheduledTime)));
+        });
+      }
+    }
+  });
+};
+
+debugConsole("initial");

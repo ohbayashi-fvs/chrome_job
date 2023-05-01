@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "ジョブカンお知らせ",
-  "description": "ジョブカンのお知らせをします",
-  "version": "0.3.0",
-  "permissions": ["alarms", "storage", "tabs", "scripting", "management", "notifications"],
-  "host_permissions": ["http://*/*", "https://*/*"],
+  "name": "ジョブカンお知らせ(非公式)",
+  "description": "時間になると勤怠のお知らせをします。",
+  "version": "0.4.0",
+  "permissions": ["alarms", "storage", "tabs", "scripting", "notifications"],
+  "host_permissions": ["https://*.jobcan.jp/*"],
   "options_page": "options.html",
   "action": {
     "default_icon": "icon.png",
