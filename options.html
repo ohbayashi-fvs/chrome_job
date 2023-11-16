@@ -4,13 +4,15 @@
   <link rel="stylesheet" href="pico.classless.min.css" />
 
   <style>
+    .body {
+      min-width: 28rem;
+    }
     .fx {
       display: grid;
       grid-template-columns: 0.8fr 1fr;
       align-items: center;
       gap: 1rem;
       padding: 1rem 4rem 1rem 4rem;
-      width: 28rem;
     }
     .center {
       display: flex;
@@ -29,7 +31,7 @@
       margin-bottom: 0;
     }
   </style>
-  <body>
+  <body class="body">
     <section class="center">
       <h1>デフォルト設定</h1>
       <div class="fx">
@@ -38,6 +40,7 @@
         <label>夜は何時に通知？</label
         ><input id="evening-start" type="time" min="17:50" max="21:00" />
         <p>↑「時刻変更」の方が優先されます</p>
+        <label>稼働表のURL</label><input id="kadouhyou" type="text" />
         <label>デバッグモード</label><input id="debug" type="checkbox" />
         <button id="save">設定を保存</button>
       </div>

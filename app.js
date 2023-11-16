@@ -36,7 +36,9 @@ const eveningAlarmReflesh = (isTomorrow, reflesh) => {
       chrome.alarms.clear("evening");
       chrome.alarms.create("evening", {
         when: getTimefromStr(
-          items.todayTime === "" || isTomorrow ? items.eveningStart : items.todayTime,
+          items.todayTime === "" || isTomorrow
+            ? items.eveningStart
+            : items.todayTime,
           isTomorrow,
           true
         ),
@@ -119,6 +121,13 @@ const callJobkan = async () => {
   chrome.tabs.create({ url: "https://id.jobcan.jp/users/sign_in" });
 };
 
+const callKadouhyou = async () => {
+  chrome.storage.sync.get().then((items) => {
+    if (items.kadouhyou.length < 8) return;
+    chrome.tabs.create({ url: items.kadouhyou });
+  });
+};
+
 chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name === "morning") {
     callJobkan();
@@ -126,6 +135,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   }
   if (alarm.name === "evening") {
     callJobkan();
+    callKadouhyou();
     eveningAlarmReflesh(true);
   }
 });
@@ -143,7 +153,10 @@ chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
       },
     });
   }
-  if (info.status === "complete" && tab.url.indexOf("https://ssl.jobcan.jp/employee") !== -1) {
+  if (
+    info.status === "complete" &&
+    tab.url.indexOf("https://ssl.jobcan.jp/employee") !== -1
+  ) {
     chrome.scripting.executeScript({
       target: { tabId: tabId },
       func: () => {
@@ -154,17 +167,27 @@ chrome.tabs.onUpdated.addListener(function (tabId, info, tab) {
             const nowHour = new Date().getHours();
             const statusStr = status.textContent;
             if (statusStr === "勤務中" && nowHour >= 15) {
-              document.getElementById("adit-button-work-start").style.opacity = 0.2;
+              document.getElementById(
+                "adit-button-work-start"
+              ).style.opacity = 0.2;
             }
             if (statusStr === "未出勤" && nowHour <= 13) {
-              document.getElementById("adit-button-work-end").style.opacity = 0.2;
+              document.getElementById(
+                "adit-button-work-end"
+              ).style.opacity = 0.2;
             }
             if (statusStr === "退室中") {
-              document.getElementById("adit-button-work-start").style.opacity = 0.2;
-              document.getElementById("adit-button-work-end").style.opacity = 0.2;
+              document.getElementById(
+                "adit-button-work-start"
+              ).style.opacity = 0.2;
+              document.getElementById(
+                "adit-button-work-end"
+              ).style.opacity = 0.2;
             }
-            document.getElementById("adit-button-rest-start").style.visibility = "hidden";
-            document.getElementById("adit-button-rest-end").style.visibility = "hidden";
+            document.getElementById("adit-button-rest-start").style.visibility =
+              "hidden";
+            document.getElementById("adit-button-rest-end").style.visibility =
+              "hidden";
           }
           if (counter > 20) {
             clearInterval(timerId);
@@ -197,7 +220,9 @@ const debugConsole = (consoleStr) => {
       } else {
         chrome.alarms.getAll().then((alarms) => {
           console.log("↓" + consoleStr);
-          alarms.map((alarm) => console.log(alarm.name + new Date(alarm.scheduledTime)));
+          alarms.map((alarm) =>
+            console.log(alarm.name + new Date(alarm.scheduledTime))
+          );
         });
       }
     }
